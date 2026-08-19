@@ -153,6 +153,22 @@ function resetForgotForm() {
 
 }
 
+async function fetchWithTimeout(url, options, timeoutMs = 12000) {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+    try {
+        const response = await fetch(url, { ...options, signal: controller.signal });
+        clearTimeout(timeoutId);
+        return response;
+    } catch (err) {
+        clearTimeout(timeoutId);
+        if (err.name === 'AbortError') {
+            throw new Error('Request timed out. Please check your connection or try again.');
+        }
+        throw err;
+    }
+}
+
 async function handleForgotStep1() {
 
     const emailInput = document.getElementById('forgot-email');
@@ -177,7 +193,7 @@ async function handleForgotStep1() {
     }
 
     try {
-        const response = await fetch('/forgot-password/send-code', {
+        const response = await fetchWithTimeout('/forgot-password/send-code', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email })
@@ -206,7 +222,7 @@ async function handleForgotStep1() {
         if (description) description.textContent = 'Enter the verification code sent to your email.';
 
     } catch (err) {
-        setFieldError('forgot-email', 'Network error. Please try again.');
+        setFieldError('forgot-email', err.message || 'Network error. Please try again.');
     } finally {
         if (btn) {
             btn.disabled = false;
@@ -242,7 +258,7 @@ async function handleForgotStep2() {
     }
 
     try {
-        const response = await fetch('/forgot-password/verify-code', {
+        const response = await fetchWithTimeout('/forgot-password/verify-code', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email, code })
@@ -271,7 +287,7 @@ async function handleForgotStep2() {
         if (description) description.textContent = 'Enter and confirm your new password.';
 
     } catch (err) {
-        setFieldError('forgot-code', 'Network error. Please try again.');
+        setFieldError('forgot-code', err.message || 'Network error. Please try again.');
     } finally {
         if (btn) {
             btn.disabled = false;
@@ -319,7 +335,7 @@ async function handleForgotStep3() {
     }
 
     try {
-        const response = await fetch('/forgot-password/reset', {
+        const response = await fetchWithTimeout('/forgot-password/reset', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email, code, newPassword: password })
@@ -348,7 +364,7 @@ async function handleForgotStep3() {
         if (description) description.textContent = 'Your password has been reset successfully.';
 
     } catch (err) {
-        setFieldError('forgot-password', 'Network error. Please try again.');
+        setFieldError('forgot-password', err.message || 'Network error. Please try again.');
     } finally {
         if (btn) {
             btn.disabled = false;

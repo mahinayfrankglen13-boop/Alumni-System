@@ -136,9 +136,13 @@ module.exports.sendResetCode = async (req, res) => {
         return res.json({ success: true, message: 'Verification code sent to your email.' });
     } catch (err) {
         console.error('Email send error:', err);
+        let msg = 'Failed to send verification code email. Please try again later or contact support.';
+        if (err.message && err.message.includes('EMAIL_USER')) {
+            msg = 'Email service is not yet configured on the server. Please set EMAIL_USER and EMAIL_PASS in server settings.';
+        }
         return res.status(500).json({
             success: false,
-            message: 'Failed to send verification code email. Please try again later or contact support.'
+            message: msg
         });
     }
 };

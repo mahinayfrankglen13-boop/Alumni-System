@@ -12,21 +12,27 @@ const getTransporter = () => {
     const user = process.env.EMAIL_USER ? process.env.EMAIL_USER.trim() : '';
     const pass = process.env.EMAIL_PASS ? process.env.EMAIL_PASS.trim() : '';
 
+    if (!user || !pass) {
+        throw new Error('EMAIL_USER or EMAIL_PASS environment variables are not configured on the server.');
+    }
+
     if (process.env.EMAIL_HOST && process.env.EMAIL_PORT) {
         transporter = nodemailer.createTransport({
-            pool: true,
-            maxConnections: 5,
             host: process.env.EMAIL_HOST.trim(),
             port: parseInt(process.env.EMAIL_PORT.trim()),
             secure: process.env.EMAIL_SECURE ? process.env.EMAIL_SECURE.trim() === 'true' : false,
-            auth: { user, pass }
+            auth: { user, pass },
+            connectionTimeout: 8000,
+            greetingTimeout: 8000,
+            socketTimeout: 8000
         });
     } else {
         transporter = nodemailer.createTransport({
-            pool: true,
-            maxConnections: 5,
             service: process.env.EMAIL_SERVICE ? process.env.EMAIL_SERVICE.trim() : 'gmail',
-            auth: { user, pass }
+            auth: { user, pass },
+            connectionTimeout: 8000,
+            greetingTimeout: 8000,
+            socketTimeout: 8000
         });
     }
 
