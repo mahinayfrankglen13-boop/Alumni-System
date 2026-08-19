@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<title>MSU-MCEST Alumni | Portal Access</title>
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link
+    href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Poppins:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
+
+<!-- Login CSS -->
+<link rel="stylesheet" href="/css/login.css">
+
+</head>
+
+<body>
+
+<main class="login-page">
+
+    <div class="card">
+
+        <!-- =========================
+             BRAND
+        ========================== -->
+
+        <div class="card-brand">
+
+            <a href="/" class="brand-link">
+
+                <img src="/images/Logo.png" alt="MSU-MCEST Logo" class="brand-logo">
+
+                <div class="brand-text">
+
+                    <div class="brand-name">
+                        MSU-MCEST Alumni
+                    </div>
+
+                    <div class="brand-sub">
+                        Alumni Portal
+                    </div>
+
+                </div>
+
+            </a>
+
+        </div>
+
+
+        <!-- =========================
+             HEADER
+        ========================== -->
+
+        <div class="card-header">
+            <h1 id="form-title">
+                Welcome Back
+            </h1>
+
+            <p id="form-description">
+                Enter your credentials to access your account.
+            </p>
+
+            <% if (typeof errorMsg !== 'undefined' && errorMsg) { %>
+                <div style="background: #fee2e2; color: #991b1b; padding: 10px 14px; border-radius: 8px; font-size: 0.85rem; font-weight: 600; text-align: center; margin-top: 12px; border: 1px solid #fca5a5;">
+                    <%= errorMsg %>
+                </div>
+            <% } %>
+
+            <% if (typeof successMsg !== 'undefined' && successMsg) { %>
+                <div style="background: #dcfce7; color: #166534; padding: 10px 14px; border-radius: 8px; font-size: 0.85rem; font-weight: 600; text-align: center; margin-top: 12px; border: 1px solid #86efac;">
+                    <%= successMsg %>
+                </div>
+            <% } %>
+        </div>
+
+
+        <!-- =========================
+             TABS
+        ========================== -->
+
+        <div class="tabs" id="tabs">
+
+            <div class="tab-indicator" id="tab-indicator"></div>
+
+            <button type="button" class="tab active" id="tab-login" onclick="showForm('login')">
+                Sign In
+            </button>
+
+            <button type="button" class="tab" id="tab-signup" onclick="showForm('signup')">
+                Create Account
+            </button>
+
+        </div>
+
+
+        <!-- =========================
+             FORMS
+        ========================== -->
+
+        <div class="forms-wrap">
+
+
+            <!-- =====================
+                 LOGIN
+            ====================== -->
+
+            <form class="form active" id="form-login"
+                action="/login"
+                method="POST"
+                onsubmit="return validateLoginForm();">
+
+                <div class="field">
+
+                    <label for="login-id">
+                        Email
+                    </label>
+
+                    <input type="email" id="login-id" name="email" placeholder="Enter your email"
+                        autocomplete="username">
+
+                    <div class="field-error" id="login-id-error" aria-live="polite"></div>
+
+                </div>
+
+
+                <div class="field">
+
+                    <label for="login-password">
+                        Password
+                    </label>
+
+                    <div class="input-wrapper">
+
+                        <input type="password" id="login-password" name="password" placeholder="Enter your password"
+                            autocomplete="current-password">
+
+                        <div class="field-error" id="login-password-error" aria-live="polite"></div>
+
+                        <button type="button" class="pw-toggle" onclick="togglePassword('login-password', this)"
+                            aria-label="Show password">
+
+                            <svg class="icon-eye" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                                <circle cx="12" cy="12" r="3" />
+                            </svg>
+
+                            <svg class="icon-eye-off" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path
+                                    d="M17.94 17.94A10.94 10.94 0 0 1 12 20c-7 0-11-8-11-8a18.5 18.5 0 0 1 5.06-5.94M9.9 4.24A10.94 10.94 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19M14.12 14.12a3 3 0 1 1-4.24-4.24" />
+                                <line x1="1" y1="1" x2="23" y2="23" />
+                            </svg>
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <div class="forgot">
+
+                    <a href="#" onclick="showForm('forgot'); return false;">
+                        Forgot password?
+                    </a>
+
+                </div>
+
+
+                <button type="submit" class="btn-primary">
+                    Sign In
+                </button>
+
+            </form>
+
+
+            <!-- =====================
+                 SIGN UP
+            ====================== -->
+
+            <form class="form" id="form-signup"
+                onsubmit="return validateSignupForm();"
+                action="/register"
+                method="POST">
+
+                <div class="field">
+
+                    <label for="signup-name">
+                        Full Name
+                    </label>
+
+                    <input type="text" id="signup-name" name="fullName" placeholder="John Doe" autocomplete="name">
+
+                    <div class="field-error" id="signup-name-error" aria-live="polite"></div>
+
+                </div>
+
+
+                <div class="field">
+
+                    <label for="signup-email">
+                        Email Address
+                    </label>
+
+                    <input type="email" id="signup-email" name="email" placeholder="john.doe@mcest.edu.ph"
+                        autocomplete="email">
+
+                    <div class="field-error" id="signup-email-error" aria-live="polite"></div>
+
+                </div>
+
+
+                <div class="field">
+
+                    <label for="signup-course">
+                        Course Program
+                    </label>
+
+                    <select id="signup-course" class="select-input" name="course">
+
+                        <option value="">
+                            Select your course...
+                        </option>
+
+                        <% for(let course of courses) { %>
+                            <option value="<%= course._id %>">
+                                <%= course.courseCode %> - <%= course.courseName %>
+                            </option>
+                        <% } %>
+
+                    </select>
+
+                    <div class="field-error" id="signup-course-error" aria-live="polite"></div>
+
+                </div>
+
+
+                <div class="field">
+
+                    <label for="signup-graduation-year">
+                        Graduation Year
+                    </label>
+
+                    <input type="number" id="signup-graduation-year" name="graduationYear" placeholder="e.g. 2024"
+                        min="1900" max="2100">
+
+                    <div class="field-error" id="signup-graduation-year-error" aria-live="polite"></div>
+
+                </div>
+
+
+                <div class="field">
+
+                    <label for="signup-alumni-id">
+                        Alumni ID
+                    </label>
+
+                    <input type="number" id="signup-alumni-id" name="alumniId" placeholder="202400001" min="1" step="1">
+
+                    <div class="field-error" id="signup-alumni-id-error" aria-live="polite"></div>
+
+                </div>
+
+
+                <div class="field">
+
+                    <label for="signup-password">
+                        Create Password
+                    </label>
+
+                    <div class="input-wrapper">
+
+                        <input type="password" id="signup-password" name="password"
+                            placeholder="Must be at least 8 characters" autocomplete="new-password">
+
+                        <div class="field-error" id="signup-password-error" aria-live="polite"></div>
+
+                        <button type="button" class="pw-toggle" onclick="togglePassword('signup-password', this)"
+                            aria-label="Show password">
+
+                            <svg class="icon-eye" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                                <circle cx="12" cy="12" r="3" />
+                            </svg>
+
+                            <svg class="icon-eye-off" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path
+                                    d="M17.94 17.94A10.94 10.94 0 0 1 12 20c-7 0-11-8-11-8a18.5 18.5 0 0 1 5.06-5.94M9.9 4.24A10.94 10.94 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19M14.12 14.12a3 3 0 1 1-4.24-4.24" />
+                                <line x1="1" y1="1" x2="23" y2="23" />
+                            </svg>
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <button type="submit" class="btn-primary">
+                    Create Account
+                </button>
+
+            </form>
+
+
+            <!-- =====================
+                 FORGOT PASSWORD
+            ====================== -->
+
+            <form class="form" id="form-forgot" onsubmit="return false;">
+
+                <div class="forgot-info" id="forgot-info">
+                    Enter your email to receive a verification code.
+                </div>
+
+
+                <!-- STEP 1: Enter Email -->
+                <div id="forgot-step-1" class="forgot-step">
+
+                    <div class="field">
+
+                        <label for="forgot-email">
+                            Email Address
+                        </label>
+
+                        <input type="email" id="forgot-email" placeholder="john.doe@mcest.edu.ph" autocomplete="email">
+
+                        <div class="field-error" id="forgot-email-error" aria-live="polite"></div>
+
+                    </div>
+
+                    <button type="button" id="forgot-btn-step1" class="btn-primary" onclick="handleForgotStep1()">
+                        Send Verification Code
+                    </button>
+
+                </div>
+
+
+                <!-- STEP 2: Enter Code -->
+                <div id="forgot-step-2" class="forgot-step" style="display: none;">
+
+                    <div class="field">
+
+                        <label for="forgot-code">
+                            Verification Code
+                        </label>
+
+                        <input type="text" id="forgot-code" placeholder="Enter 6-digit code" maxlength="6">
+
+                        <div class="field-error" id="forgot-code-error" aria-live="polite"></div>
+
+                    </div>
+
+                    <button type="button" id="forgot-btn-step2" class="btn-primary" onclick="handleForgotStep2()">
+                        Verify Code
+                    </button>
+
+                </div>
+
+
+                <!-- STEP 3: Enter New Password -->
+                <div id="forgot-step-3" class="forgot-step" style="display: none;">
+
+                    <div class="field">
+
+                        <label for="forgot-password">
+                            New Password
+                        </label>
+
+                        <div class="input-wrapper">
+
+                            <input type="password" id="forgot-password" placeholder="Enter new password" autocomplete="new-password">
+
+                            <button type="button" class="pw-toggle" onclick="togglePassword('forgot-password', this)"
+                                aria-label="Show password">
+
+                                <svg class="icon-eye" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                                    <circle cx="12" cy="12" r="3" />
+                                </svg>
+
+                                <svg class="icon-eye-off" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <path
+                                        d="M17.94 17.94A10.94 10.94 0 0 1 12 20c-7 0-11-8-11-8a18.5 18.5 0 0 1 5.06-5.94M9.9 4.24A10.94 10.94 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19M14.12 14.12a3 3 0 1 1-4.24-4.24" />
+                                    <line x1="1" y1="1" x2="23" y2="23" />
+                                </svg>
+
+                            </button>
+
+                        </div>
+
+                        <div class="field-error" id="forgot-password-error" aria-live="polite"></div>
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label for="forgot-confirm-password">
+                            Confirm New Password
+                        </label>
+
+                        <div class="input-wrapper">
+
+                            <input type="password" id="forgot-confirm-password" placeholder="Confirm new password" autocomplete="new-password">
+
+                            <button type="button" class="pw-toggle" onclick="togglePassword('forgot-confirm-password', this)"
+                                aria-label="Show password">
+
+                                <svg class="icon-eye" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                                    <circle cx="12" cy="12" r="3" />
+                                </svg>
+
+                                <svg class="icon-eye-off" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <path
+                                        d="M17.94 17.94A10.94 10.94 0 0 1 12 20c-7 0-11-8-11-8a18.5 18.5 0 0 1 5.06-5.94M9.9 4.24A10.94 10.94 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19M14.12 14.12a3 3 0 1 1-4.24-4.24" />
+                                    <line x1="1" y1="1" x2="23" y2="23" />
+                                </svg>
+
+                            </button>
+
+                        </div>
+
+                        <div class="field-error" id="forgot-confirm-password-error" aria-live="polite"></div>
+
+                    </div>
+
+                    <button type="button" id="forgot-btn-step3" class="btn-primary" onclick="handleForgotStep3()">
+                        Reset Password
+                    </button>
+
+                </div>
+
+
+                <!-- STEP 4: Success Message -->
+                <div id="forgot-step-success" class="forgot-step" style="display: none; text-align: center;">
+
+                    <div style="background: #dcfce7; color: #166534; padding: 12px 14px; border-radius: 10px; font-size: 0.85rem; font-weight: 600; margin-bottom: 1.25rem; border: 1px solid #86efac;">
+                        Password reset successfully! You can now sign in with your new password.
+                    </div>
+
+                    <button type="button" class="btn-primary" onclick="showForm('login')">
+                        Proceed to Sign In
+                    </button>
+
+                </div>
+
+
+                <div class="back-link">
+
+                    <a href="#" onclick="showForm('login'); return false;">
+                        ← Back to Sign In
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+
+        <!-- =========================
+             FOOTER
+        ========================== -->
+
+        <div class="card-footer">
+
+            <a href="/">
+                ← Return to Home Page
+            </a>
+
+        </div>
+
+    </div>
+
+</main>
+
+
+<!-- Login JavaScript -->
+<script src="/js/login.js"></script>
+
+</body>
+
+</html>

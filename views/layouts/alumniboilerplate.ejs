@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="/css/alumni/global.css" />
+    <% if (css) { %>
+    <link rel="stylesheet" href="/css/alumni/<%= css %>.css">
+    <% } %>
+
+</head>
+
+<body class="dashboard-page">
+
+    <!-- TOP NAVBAR -->
+    <%- include('../partials/alumni/navbar') %>
+    <div class="app-layout">
+        <!-- SIDEBAR -->
+        <%- include('../partials/alumni/sidebar') %>
+        <!-- Content  -->
+        <%- body %>
+    </div>
+
+
+    <script src="/js/alumni/global.js" defer></script>
+    <% if (js) { %>
+    <script src="/js/alumni/<%= js %>.js" defer></script>
+    <% } %>
+</body>
+
+</html>

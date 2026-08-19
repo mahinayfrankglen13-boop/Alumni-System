@@ -1,0 +1,49 @@
+<header class="top-alumni-navbar">
+  <div class="top-nav-left">
+    <button class="sidebar-toggle-btn" onclick="toggleSidebar()" title="Toggle Navigation Sidebar">
+      <i data-lucide="menu"></i>
+    </button>
+
+    <a href="/alumni/jobs" class="nav-brand-group">
+      <div class="nav-logo-badge" style="background:transparent;padding:0;overflow:hidden;">
+        <img src="/images/Logo.png" alt="MSU-MCEST Logo" style="width:100%;height:100%;object-fit:contain;">
+      </div>
+      <div>
+        <div class="nav-title">MSU-MCEST Alumni</div>
+        <div class="nav-subtitle">Tracking & Profiling System</div>
+      </div>
+    </a>
+  </div>
+
+  <!-- Top Right Actions & Profile Menu -->
+
+  <div class="user-chip-wrapper">
+    <div class="user-chip-btn" onclick="toggleUserDropdown(event)">
+      <div class="user-avatar" style="overflow:hidden;padding:0;">
+        <img
+          src="<%= (currentUser && currentUser.profileImage && currentUser.profileImage.url) ? currentUser.profileImage.url : 'https://res.cloudinary.com/fad0iwxm/image/upload/v1786894165/defaul-prof_ryln3w.jpg' %>"
+          alt="Profile" style="width:100%;height:100%;object-fit:cover;">
+      </div>
+      <div class="user-info">
+        <span class="user-name">
+          <%= currentUser ? currentUser.fullName : 'Alumni User' %>
+        </span>
+        <span class="user-role-badge">
+          <%= currentUser && currentUser.course ? (currentUser.course.courseCode || 'Alumni' ) : 'Alumni' %> Batch '
+            <%= currentUser ? currentUser.graduationYear : '' %>
+        </span>
+      </div>
+      <i data-lucide="chevron-down" style="width: 14px; height: 14px; color: var(--slate-400);"></i>
+    </div>
+
+    <div class="dropdown-menu" id="user-dropdown">
+      <a href="/alumni/profile" class="dropdown-item"><i data-lucide="user"></i> My Alumni Profile</a>
+      <div class="dropdown-divider"></div>
+      <form action="/logout" method="POST" style="margin:0;">
+        <button type="submit" class="dropdown-item danger">
+          <i data-lucide="log-out"></i> Log Out
+        </button>
+      </form>
+    </div>
+  </div>
+</header>

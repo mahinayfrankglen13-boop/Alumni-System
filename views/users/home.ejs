@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MSU-MCEST Alumni Association | Official Portal</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,600;0,700;1,400&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Home CSS -->
+    <link rel="stylesheet" href="/css/home.css">
+</head>
+
+<body>
+
+    <!-- =========================
+         NAVBAR
+    ========================== -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="nav-brand">
+                <img src="/images/Logo.png" alt="MSU-MCEST Logo" class="nav-logo">
+                <div class="brand-text">
+                    <span class="brand-title">MSU-MCEST Alumni</span>
+                    <span class="brand-sub">Alumni Association</span>
+                </div>
+            </a>
+
+            <ul class="nav-links">
+                <li><a href="/" class="nav-link">Home</a></li>
+                <li><a href="#features" class="nav-link">Features</a></li>
+                <li><a href="#programs" class="nav-link">Programs</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+            </ul>
+
+            <div class="nav-actions">
+                <a href="/login" class="btn-secondary">Sign In</a>
+                <a href="/login" class="btn-nav-primary">Join Network</a>
+            </div>
+        </div>
+    </nav>
+
+
+    <!-- =========================
+         HERO SECTION
+    ========================== -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <i data-lucide="graduation-cap" style="width: 16px; height: 16px;"></i> Official MSU-MCEST Alumni Portal
+                </div>
+                <h1 class="hero-title">
+                    Connecting Generations of <span>MSU-MCEST Graduates</span>
+                </h1>
+                <p class="hero-subtitle">
+                    Reconnect with classmates, discover career opportunities, stay updated with campus announcements, and expand your professional network across the globe.
+                </p>
+                <div class="hero-buttons">
+                    <a href="/login" class="btn-hero-primary">Access Portal →</a>
+                    <a href="#features" class="btn-hero-secondary">Explore Features</a>
+                </div>
+            </div>
+
+            <div class="hero-image-wrap">
+                <div class="hero-card-preview">
+                    <div class="preview-header">
+                        <img src="/images/Logo.png" alt="MSU-MCEST Logo" class="preview-logo">
+                        <div>
+                            <div class="preview-title">Alumni Portal</div>
+                            <div class="preview-sub">Mindanao State University - MCEST</div>
+                        </div>
+                    </div>
+
+                    <div class="preview-pills">
+                        <span class="preview-pill">💻 Computer Science</span>
+                        <span class="preview-pill">🌐 Info Technology</span>
+                        <span class="preview-pill">🏗️ Civil Engineering</span>
+                        <span class="preview-pill">⚡ Electrical Eng.</span>
+                    </div>
+
+                    <div class="preview-stats-mini">
+                        <div class="mini-stat">
+                            <div class="mini-stat-val"><%= stats.alumni %>+</div>
+                            <div class="mini-stat-lbl">Active Alumni</div>
+                        </div>
+                        <div class="mini-stat">
+                            <div class="mini-stat-val"><%= stats.jobs %>+</div>
+                            <div class="mini-stat-lbl">Job Opportunities</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- =========================
+         STATS COUNTER BAR
+    ========================== -->
+    <section class="stats-section">
+        <div class="stats-container">
+            <div class="stat-item">
+                <div class="stat-number"><%= stats.alumni %>+</div>
+                <div class="stat-label">Registered Graduates</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number"><%= stats.jobs %>+</div>
+                <div class="stat-label">Career Postings</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number"><%= stats.announcements %>+</div>
+                <div class="stat-label">Campus Announcements</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">100%</div>
+                <div class="stat-label">Verified Community</div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- =========================
+         FEATURES SECTION
+    ========================== -->
+    <section class="features" id="features">
+        <div class="section-header">
+            <div class="section-tag">Empowering Our Community</div>
+            <h2 class="section-title">Everything You Need to Stay Connected</h2>
+            <p class="section-desc">Designed to support graduates in their professional growth and keep university ties strong.</p>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon-box">
+                    <i data-lucide="users"></i>
+                </div>
+                <h3 class="feature-card-title">Alumni Directory</h3>
+                <p class="feature-card-desc">
+                    Search and connect with fellow graduates filtered by degree program, graduation year, or industry.
+                </p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon-box">
+                    <i data-lucide="briefcase"></i>
+                </div>
+                <h3 class="feature-card-title">Career Opportunities</h3>
+                <p class="feature-card-desc">
+                    Explore exclusive job openings posted by partner companies, administrators, and fellow alumni.
+                </p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon-box">
+                    <i data-lucide="megaphone"></i>
+                </div>
+                <h3 class="feature-card-title">Campus Announcements</h3>
+                <p class="feature-card-desc">
+                    Stay up-to-date with institutional news, upcoming alumni homecoming reunions, and seminars.
+                </p>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- =========================
+         PROGRAMS HIGHLIGHT
+    ========================== -->
+    <section class="courses-section" id="programs">
+        <div class="courses-container">
+            <div class="section-header">
+                <div class="section-tag">Academic Excellence</div>
+                <h2 class="section-title">Our Alumni Degree Programs</h2>
+                <p class="section-desc">Graduates from MSU-MCEST lead innovation across various industries.</p>
+            </div>
+
+            <div class="courses-grid">
+                <% if (courses && courses.length > 0) { %>
+                    <% courses.forEach(c => { %>
+                        <div class="course-card">
+                            <span class="course-badge"><%= c.courseCode %></span>
+                            <span class="course-name"><%= c.courseName %></span>
+                        </div>
+                    <% }); %>
+                <% } else { %>
+                    <div class="course-card"><span class="course-badge">BSCS</span><span class="course-name">Bachelor of Science in Computer Science</span></div>
+                    <div class="course-card"><span class="course-badge">BSIT</span><span class="course-name">Bachelor of Science in Information Technology</span></div>
+                    <div class="course-card"><span class="course-badge">BSIS</span><span class="course-name">Bachelor of Science in Information Systems</span></div>
+                    <div class="course-card"><span class="course-badge">BSCE</span><span class="course-name">Bachelor of Science in Civil Engineering</span></div>
+                    <div class="course-card"><span class="course-badge">BSEE</span><span class="course-name">Bachelor of Science in Electrical Engineering</span></div>
+                <% } %>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- =========================
+         CTA BANNER
+    ========================== -->
+    <section class="cta-section" id="about">
+        <div class="cta-card">
+            <h2 class="cta-title">Ready to Join the MSU-MCEST Alumni Network?</h2>
+            <p class="cta-desc">
+                Sign in to your account or create a new profile to access alumni features, events, and career opportunities.
+            </p>
+            <div class="cta-buttons">
+                <a href="/login" class="btn-cta-light">Get Started Now →</a>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- =========================
+         FOOTER
+    ========================== -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div>
+                <div class="footer-brand-title">MSU-MCEST Alumni Portal</div>
+                <p class="footer-brand-desc">
+                    Official alumni management and networking portal of Mindanao State University - MCEST.
+                </p>
+            </div>
+
+            <div>
+                <div class="footer-col-title">Navigation</div>
+                <ul class="footer-links">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#programs">Degree Programs</a></li>
+                    <li><a href="/login">Sign In / Register</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <div class="footer-col-title">Portal Services</div>
+                <ul class="footer-links">
+                    <li><a href="/login">Alumni Directory</a></li>
+                    <li><a href="/login">Job Board</a></li>
+                    <li><a href="/login">Announcements</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <div class="footer-col-title">Contact Us</div>
+                <ul class="footer-links">
+                    <li><a href="#">MSU-MCEST Campus</a></li>
+                    <li><a href="#">support@mcest.edu.ph</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            &copy; <%= new Date().getFullYear() %> MSU-MCEST Alumni Association. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+
+</html>

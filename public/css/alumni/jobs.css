@@ -1,0 +1,116 @@
+/* ==========================================================================
+   MSU-MCEST ALUMNI PORTAL - JOB OPPORTUNITIES PAGE STYLES
+   ========================================================================== */
+
+.jobs-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+.job-card {
+  background: #FFFFFF;
+  border-radius: var(--radius);
+  border: 1px solid var(--slate-200);
+  padding: 1.75rem;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.25s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.job-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--slate-300);
+}
+
+.job-company-tag {
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: var(--gold);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.35rem;
+}
+
+.job-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--slate-900);
+  margin-bottom: 0.5rem;
+}
+
+.job-meta-row {
+  display: flex;
+  gap: 1.25rem;
+  font-size: 0.86rem;
+  color: var(--slate-500);
+  margin-bottom: 0.85rem;
+}
+
+.job-meta-row div {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.job-desc {
+  font-size: 0.92rem;
+  color: var(--slate-600);
+  line-height: 1.6;
+  margin-bottom: 1.25rem;
+}
+
+.job-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 1rem;
+  border-top: 1px solid var(--slate-100);
+  font-size: 0.8rem;
+  color: var(--slate-400);
+}
+
+.btn-outline-danger {
+  background: transparent;
+  border: 1.5px solid #FCA5A5;
+  color: #DC2626;
+}
+
+.btn-outline-danger:hover {
+  background: #FEF2F2;
+  border-color: #EF4444;
+  color: #B91C1C;
+}
+
+@media (max-width: 992px) {
+  .jobs-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 768px) {
+  .job-card {
+    padding: 1.25rem;
+  }
+
+  .job-meta-row {
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .job-card-footer {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .job-card-footer div {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .job-card-footer .btn {
+    flex: 1;
+  }
+}

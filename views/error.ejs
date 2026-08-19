@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MSU-MCEST Alumni | Error</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Reuse the same login CSS for shared variables / card styling -->
+    <link rel="stylesheet" href="/css/login.css">
+
+    <style>
+        .error-page {
+
+            min-height:
+                100vh;
+
+            display:
+                flex;
+
+            justify-content:
+                center;
+
+            align-items:
+                center;
+
+            padding:
+                2rem;
+        }
+
+        .error-card {
+
+            width:
+                100%;
+
+            max-width:
+                460px;
+
+            padding:
+                2.75rem;
+
+            text-align:
+                center;
+
+            background:
+                rgba(255, 255, 255, 0.97);
+
+            border:
+                1px solid rgba(219, 226, 234, 0.9);
+
+            border-radius:
+                22px;
+
+            box-shadow:
+                0 25px 60px rgba(15, 23, 42, 0.08),
+                0 4px 12px rgba(15, 23, 42, 0.04);
+        }
+
+        .error-code {
+
+            margin-bottom:
+                0.75rem;
+
+            color:
+                var(--primary);
+
+            font-family:
+                "Lora", serif;
+
+            font-size:
+                3rem;
+
+            font-weight:
+                700;
+
+            line-height:
+                1;
+        }
+
+        .error-title {
+
+            margin-bottom:
+                0.75rem;
+
+            font-family:
+                "Lora", serif;
+
+            font-size:
+                1.4rem;
+
+            font-weight:
+                700;
+
+            color:
+                var(--text-main);
+        }
+
+        .error-message {
+
+            margin-bottom:
+                2rem;
+
+            color:
+                var(--text-muted);
+
+            font-size:
+                0.9rem;
+
+            line-height:
+                1.6;
+        }
+
+        .error-actions {
+
+            display:
+                flex;
+
+            gap:
+                0.75rem;
+
+            justify-content:
+                center;
+        }
+
+        .btn-secondary {
+
+            padding:
+                0.75rem 1.25rem;
+
+            color:
+                var(--primary);
+
+            background:
+                var(--primary-light);
+
+            border:
+                none;
+
+            border-radius:
+                10px;
+
+            font-family:
+                inherit;
+
+            font-size:
+                0.85rem;
+
+            font-weight:
+                600;
+
+            text-decoration:
+                none;
+
+            cursor:
+                pointer;
+
+            transition:
+                background 0.2s ease;
+        }
+
+        .btn-secondary:hover {
+
+            background:
+                #f0dde3;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <main class="error-page">
+
+        <div class="error-card">
+
+            <div class="error-code">
+                <%= err.statusCode || 500 %>
+            </div>
+
+            <h1 class="error-title">
+                <% if (err.statusCode === 404) { %>
+                    Page Not Found
+                <% } else if (err.statusCode === 403) { %>
+                    Access Denied
+                <% } else if (err.statusCode === 429) { %>
+                    Too Many Requests
+                <% } else { %>
+                    Something Went Wrong
+                <% } %>
+            </h1>
+
+            <p class="error-message">
+                <%= err.message || 'An unexpected error occurred. Please try again later or contact support.' %>
+            </p>
+
+            <div class="error-actions">
+
+                <a href="/" class="btn-secondary">
+                    ← Return to Home Page
+                </a>
+
+                <a href="/login" class="btn-secondary">
+                    Go to Login
+                </a>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</body>
+
+</html>

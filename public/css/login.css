@@ -1,0 +1,1027 @@
+:root {
+    --primary: #6b1728;
+    --primary-dark: #50101d;
+    --primary-light: #f8e9ed;
+
+    --accent: #009fe3;
+
+    --text-main: #172033;
+    --text-muted: #64748b;
+
+    --border-color: #dbe2ea;
+
+    --background: #f7f8fa;
+
+    --white: #ffffff;
+}
+
+
+/* =========================
+   RESET
+========================= */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+
+/* =========================
+   BODY
+========================= */
+
+body {
+
+    min-height: 100vh;
+
+    font-family:
+        "Poppins",
+        sans-serif;
+
+    color: var(--text-main);
+
+    background:
+
+        radial-gradient(
+            circle at 10% 10%,
+            rgba(107, 23, 40, 0.07),
+            transparent 30%
+        ),
+
+        radial-gradient(
+            circle at 90% 90%,
+            rgba(0, 159, 227, 0.07),
+            transparent 30%
+        ),
+
+        var(--background);
+}
+
+
+/* =========================
+   PAGE
+========================= */
+
+.login-page {
+
+    min-height: 100vh;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    padding: 2rem;
+}
+
+
+/* =========================
+   CARD
+========================= */
+
+.card {
+
+    width: 100%;
+
+    max-width: 460px;
+
+    padding: 2.75rem;
+
+    background:
+        rgba(255, 255, 255, 0.97);
+
+    border:
+        1px solid rgba(219, 226, 234, 0.9);
+
+    border-radius: 22px;
+
+    box-shadow:
+
+        0 25px 60px
+        rgba(15, 23, 42, 0.08),
+
+        0 4px 12px
+        rgba(15, 23, 42, 0.04);
+
+    animation:
+        cardAppear 0.5s ease;
+}
+
+
+@keyframes cardAppear {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateY(15px);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateY(0);
+
+    }
+
+}
+
+
+/* =========================
+   BRAND
+========================= */
+
+.card-brand {
+
+    display: flex;
+
+    justify-content: center;
+
+    margin-bottom: 2rem;
+}
+
+
+.brand-link {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 14px;
+
+    text-decoration: none;
+}
+
+
+/*
+   Your actual MSU-MCEST logo
+*/
+
+.brand-logo {
+
+    width: 62px;
+
+    height: 62px;
+
+    object-fit: contain;
+
+    display: block;
+
+    border-radius: 50%;
+}
+
+
+.brand-text {
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+}
+
+
+.brand-name {
+
+    color:
+        var(--primary);
+
+    font-family:
+        "Lora",
+        serif;
+
+    font-size:
+        1.12rem;
+
+    font-weight:
+        700;
+
+    line-height:
+        1.2;
+
+    text-align:
+        left;
+}
+
+
+.brand-sub {
+
+    margin-top:
+        4px;
+
+    color:
+        var(--text-muted);
+
+    font-size:
+        0.7rem;
+
+    font-weight:
+        600;
+
+    letter-spacing:
+        0.08em;
+
+    text-transform:
+        uppercase;
+
+    text-align:
+        left;
+}
+
+
+/* =========================
+   HEADER
+========================= */
+
+.card-header {
+
+    margin-bottom:
+        1.7rem;
+}
+
+
+.card-header h1 {
+
+    margin-bottom:
+        0.45rem;
+
+    font-family:
+        "Lora",
+        serif;
+
+    font-size:
+        1.9rem;
+
+    font-weight:
+        700;
+
+    letter-spacing:
+        -0.02em;
+
+    color:
+        var(--text-main);
+}
+
+
+.card-header p {
+
+    color:
+        var(--text-muted);
+
+    font-size:
+        0.88rem;
+
+    line-height:
+        1.6;
+}
+
+
+/* =========================
+   TABS
+========================= */
+
+.tabs {
+
+    position:
+        relative;
+
+    display:
+        flex;
+
+    padding:
+        4px;
+
+    margin-bottom:
+        1.75rem;
+
+    background:
+        #f1f5f9;
+
+    border:
+        1px solid #e8edf2;
+
+    border-radius:
+        12px;
+}
+
+
+.tab {
+
+    position:
+        relative;
+
+    z-index:
+        2;
+
+    flex:
+        1;
+
+    padding:
+        0.7rem 0;
+
+    color:
+        var(--text-muted);
+
+    background:
+        transparent;
+
+    border:
+        none;
+
+    border-radius:
+        9px;
+
+    font-family:
+        inherit;
+
+    font-size:
+        0.84rem;
+
+    font-weight:
+        600;
+
+    cursor:
+        pointer;
+
+    transition:
+        color 0.25s ease;
+}
+
+
+.tab:hover {
+
+    color:
+        var(--primary);
+}
+
+
+.tab.active {
+
+    color:
+        var(--primary);
+}
+
+
+.tab-indicator {
+
+    position:
+        absolute;
+
+    z-index:
+        1;
+
+    top:
+        4px;
+
+    bottom:
+        4px;
+
+    left:
+        4px;
+
+    width:
+        calc(50% - 4px);
+
+    background:
+        #ffffff;
+
+    border-radius:
+        9px;
+
+    box-shadow:
+        0 2px 8px
+        rgba(15, 23, 42, 0.08);
+
+    transition:
+        transform
+        0.3s
+        cubic-bezier(
+            0.4,
+            0,
+            0.2,
+            1
+        );
+}
+
+
+/* =========================
+   FORMS
+========================= */
+
+.forms-wrap {
+
+    display:
+        grid;
+}
+
+
+.form {
+
+    grid-area:
+        1 / 1;
+
+    opacity:
+        0;
+
+    pointer-events:
+        none;
+
+    transform:
+        translateY(8px);
+
+    transition:
+        opacity 0.25s ease,
+        transform 0.25s ease;
+}
+
+
+.form.active {
+
+    opacity:
+        1;
+
+    pointer-events:
+        auto;
+
+    transform:
+        translateY(0);
+}
+
+
+/* =========================
+   FIELDS
+========================= */
+
+.field {
+
+    margin-bottom:
+        1.15rem;
+}
+
+
+.field label {
+
+    display:
+        block;
+
+    margin-bottom:
+        0.45rem;
+
+    color:
+        #334155;
+
+    font-size:
+        0.82rem;
+
+    font-weight:
+        600;
+}
+
+
+.input-wrapper {
+
+    position:
+        relative;
+}
+
+
+/* =========================
+   INPUTS
+========================= */
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+.select-input {
+
+    width:
+        100%;
+
+    padding:
+        0.82rem 0.95rem;
+
+    color:
+        var(--text-main);
+
+    background:
+        #ffffff;
+
+    border:
+        1.5px solid
+        var(--border-color);
+
+    border-radius:
+        10px;
+
+    outline:
+        none;
+
+    font-family:
+        inherit;
+
+    font-size:
+        0.88rem;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+input::placeholder {
+
+    color:
+        #94a3b8;
+}
+
+
+input:hover,
+.select-input:hover {
+
+    border-color:
+        #b8c5d3;
+}
+
+
+input:focus,
+.select-input:focus {
+
+    border-color:
+        var(--primary);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(
+            107,
+            23,
+            40,
+            0.10
+        );
+}
+
+.input-error {
+
+    border-color:
+        #dc2626 !important;
+
+    box-shadow:
+        0 0 0 3px rgba(220, 38, 38, 0.12) !important;
+}
+
+.field-error {
+
+    display:
+        none;
+
+    margin-top:
+        0.4rem;
+
+    color:
+        #dc2626;
+
+    font-size:
+        0.76rem;
+
+    font-weight:
+        500;
+}
+
+
+/* =========================
+   PASSWORD TOGGLE
+========================= */
+
+.pw-toggle {
+
+    position:
+        absolute;
+
+    right:
+        10px;
+
+    top:
+        50%;
+
+    width:
+        32px;
+
+    height:
+        32px;
+
+    display:
+        flex;
+
+    justify-content:
+        center;
+
+    align-items:
+        center;
+
+    transform:
+        translateY(-50%);
+
+    background:
+        transparent;
+
+    border:
+        none;
+
+    border-radius:
+        7px;
+
+    color:
+        #94a3b8;
+
+    cursor:
+        pointer;
+
+    font-size:
+        0.9rem;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease;
+}
+
+
+.pw-toggle:hover {
+
+    background:
+        #f1f5f9;
+
+    color:
+        var(--text-muted);
+}
+
+
+.pw-toggle:focus-visible {
+
+    outline:
+        2px solid var(--accent);
+
+    outline-offset:
+        2px;
+}
+
+
+/* Icons represent the CURRENT STATE of the password field:
+   - Password hidden (default)  -> slashed eye (icon-eye-off)
+   - Password visible (clicked) -> open eye (icon-eye) */
+
+.pw-toggle .icon-eye {
+
+    display:
+        none;
+}
+
+.pw-toggle .icon-eye-off {
+
+    display:
+        block;
+}
+
+.pw-toggle.is-showing .icon-eye {
+
+    display:
+        block;
+
+    color:
+        var(--primary);
+}
+
+.pw-toggle.is-showing .icon-eye-off {
+
+    display:
+        none;
+}
+
+
+/* =========================
+   FORGOT
+========================= */
+
+.forgot {
+
+    display:
+        flex;
+
+    justify-content:
+        flex-end;
+
+    margin-top:
+        -0.25rem;
+
+    margin-bottom:
+        1.3rem;
+}
+
+
+.forgot a {
+
+    color:
+        var(--primary);
+
+    font-size:
+        0.78rem;
+
+    font-weight:
+        600;
+
+    text-decoration:
+        none;
+}
+
+
+.forgot a:hover {
+
+    text-decoration:
+        underline;
+}
+
+
+/* =========================
+   PRIMARY BUTTON
+========================= */
+
+.btn-primary {
+
+    width:
+        100%;
+
+    padding:
+        0.85rem 1rem;
+
+    color:
+        #ffffff;
+
+    background:
+        linear-gradient(
+            135deg,
+            #6b1728,
+            #841f34
+        );
+
+    border:
+        none;
+
+    border-radius:
+        10px;
+
+    font-family:
+        inherit;
+
+    font-size:
+        0.88rem;
+
+    font-weight:
+        600;
+
+    cursor:
+        pointer;
+
+    box-shadow:
+        0 5px 14px
+        rgba(
+            107,
+            23,
+            40,
+            0.18
+        );
+
+    transition:
+        transform 0.15s ease,
+        box-shadow 0.2s ease;
+}
+
+
+.btn-primary:hover {
+
+    box-shadow:
+        0 7px 18px
+        rgba(
+            107,
+            23,
+            40,
+            0.25
+        );
+
+    transform:
+        translateY(-1px);
+}
+
+
+.btn-primary:active {
+
+    transform:
+        translateY(0);
+}
+
+
+/* =========================
+   FORGOT INFO
+========================= */
+
+.forgot-info {
+
+    margin-bottom:
+        1.25rem;
+
+    padding:
+        0.85rem;
+
+    color:
+        var(--text-muted);
+
+    background:
+        #f8fafc;
+
+    border:
+        1px solid #e8edf2;
+
+    border-radius:
+        10px;
+
+    font-size:
+        0.82rem;
+
+    line-height:
+        1.6;
+}
+
+
+/* =========================
+   BACK LINK
+========================= */
+
+.back-link {
+
+    margin-top:
+        1rem;
+
+    text-align:
+        center;
+}
+
+
+.back-link a {
+
+    color:
+        var(--text-muted);
+
+    font-size:
+        0.8rem;
+
+    font-weight:
+        600;
+
+    text-decoration:
+        none;
+}
+
+
+.back-link a:hover {
+
+    color:
+        var(--primary);
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+.card-footer {
+
+    margin-top:
+        1.75rem;
+
+    padding-top:
+        1.25rem;
+
+    text-align:
+        center;
+
+    border-top:
+        1px solid #eef2f6;
+}
+
+
+.card-footer a {
+
+    color:
+        var(--text-muted);
+
+    font-size:
+        0.78rem;
+
+    font-weight:
+        600;
+
+    text-decoration:
+        none;
+}
+
+
+.card-footer a:hover {
+
+    color:
+        var(--primary);
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 520px) {
+
+    .login-page {
+
+        padding:
+            1rem;
+    }
+
+
+    .card {
+
+        padding:
+            2rem 1.5rem;
+
+        border-radius:
+            18px;
+    }
+
+
+    .brand-logo {
+
+        width:
+            54px;
+
+        height:
+            54px;
+    }
+
+
+    .brand-name {
+
+        font-size:
+            1rem;
+    }
+
+
+    .card-header h1 {
+
+        font-size:
+            1.65rem;
+    }
+
+}
+
+
+@media (max-width: 380px) {
+
+    .login-page {
+
+        padding:
+            0.75rem;
+    }
+
+
+    .card {
+
+        padding:
+            1.5rem 1.15rem;
+    }
+
+
+    .brand-link {
+
+        gap:
+            10px;
+    }
+
+
+    .brand-logo {
+
+        width:
+            48px;
+
+        height:
+            48px;
+    }
+
+
+    .tab {
+
+        font-size:
+            0.78rem;
+    }
+
+}

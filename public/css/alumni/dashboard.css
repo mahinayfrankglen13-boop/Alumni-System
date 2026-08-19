@@ -1,0 +1,92 @@
+/* ==========================================================================
+   MSU-MCEST ALUMNI PORTAL - DASHBOARD PAGE STYLES
+   ========================================================================== */
+
+.welcome-banner {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  color: #FFFFFF;
+  padding: 2.25rem;
+  border-radius: var(--radius-lg);
+  margin-bottom: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: var(--shadow-glow);
+}
+
+.welcome-title {
+  font-size: 1.75rem;
+  font-weight: 800;
+  margin-bottom: 0.35rem;
+  letter-spacing: -0.02em;
+}
+
+.welcome-subtitle {
+  color: var(--slate-300);
+  font-size: 0.95rem;
+}
+
+.alumni-id-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.12);
+  padding: 8px 16px;
+  border-radius: 30px;
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: #FCD34D;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Stats Grid */
+.dash-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.dash-stat-card {
+  background: #FFFFFF;
+  padding: 1.5rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--slate-200);
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.dash-stat-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: var(--primary-light);
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dash-stat-icon.gold { background: var(--gold-light); color: var(--gold); }
+.dash-stat-icon.blue { background: var(--blue-light); color: var(--blue); }
+.dash-stat-icon.purple { background: var(--purple-light); color: var(--purple); }
+
+.dash-stat-number {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--slate-900);
+  line-height: 1.1;
+}
+
+.dash-stat-label {
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: var(--slate-500);
+  margin-top: 4px;
+}
+
+@media (max-width: 992px) {
+  .dash-stats-grid { grid-template-columns: repeat(2, 1fr); }
+}
