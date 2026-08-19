@@ -137,7 +137,7 @@ module.exports.sendResetCode = async (req, res) => {
     } catch (err) {
         // Detailed error logged to server console only (for admin/developer debugging)
         console.error('Email send error:', err);
-        
+
         // Secure, generic user-facing message to prevent information disclosure
         return res.status(500).json({
             success: false,

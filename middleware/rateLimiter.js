@@ -26,10 +26,10 @@ const loginLimiter = rateLimit({
     }
 });
 
-// Verification Code Request Limiter: Max 5 requests per 15 minutes per IP
+// Verification Code Request Limiter: Max 30 requests per 15 minutes per IP
 const forgotPasswordCodeLimiter = rateLimit({
     windowMs: 15 * 60 * 1000,
-    max: 5,
+    max: 30,
     standardHeaders: true,
     legacyHeaders: false,
     handler: (req, res) => {
@@ -40,10 +40,10 @@ const forgotPasswordCodeLimiter = rateLimit({
     }
 });
 
-// Verification / Password Reset Attempt Limiter: Max 5 attempts per 15 minutes per IP
+// Verification / Password Reset Attempt Limiter: Max 30 attempts per 15 minutes per IP
 const forgotPasswordResetLimiter = rateLimit({
     windowMs: 15 * 60 * 1000,
-    max: 5,
+    max: 30,
     standardHeaders: true,
     legacyHeaders: false,
     handler: (req, res) => {
