@@ -492,25 +492,46 @@ function validateSignupForm() {
 // =========================
 // PASSWORD TOGGLE
 // =========================
-// Uses a CSS class ("is-showing") as the single source of truth
-// for which icon is visible, instead of setting inline styles.
-// This avoids the icons getting out of sync with the input state.
 
 function togglePassword(inputId, button) {
-
-    const input = document.getElementById(inputId);
+    let input = document.getElementById(inputId);
+    if (!input && button) {
+        const wrapper = button.closest('.input-wrapper');
+        if (wrapper) {
+            input = wrapper.querySelector('input[type="password"], input[type="text"]');
+        }
+    }
 
     if (!input) return;
 
     const isCurrentlyHidden = input.type === 'password';
-
     input.type = isCurrentlyHidden ? 'text' : 'password';
 
-    button.classList.toggle('is-showing', isCurrentlyHidden);
-
-    button.setAttribute(
-        'aria-label',
-        isCurrentlyHidden ? 'Hide password' : 'Show password'
-    );
-
+    if (button) {
+        button.classList.toggle('is-showing', isCurrentlyHidden);
+        button.setAttribute(
+            'aria-label',
+            isCurrentlyHidden ? 'Hide password' : 'Show password'
+        );
+    }
 }
+
+// Expose globally to window object
+window.togglePassword = togglePassword;
+
+// Event delegation fallback for all pw-toggle buttons
+document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('click', function(e) {
+        const button = e.target.closest('.pw-toggle');
+        if (button) {
+            e.preventDefault();
+            const wrapper = button.closest('.input-wrapper');
+            if (wrapper) {
+                const input = wrapper.querySelector('input');
+                if (input) {
+                    togglePassword(input.id, button);
+                }
+            }
+        }
+    });
+});
