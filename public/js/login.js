@@ -492,8 +492,6 @@ function validateSignupForm() {
 // =========================
 // PASSWORD TOGGLE
 // =========================
-// Toggles the CSS class "is-showing" on the button.
-// CSS in login.css already defines which icon shows based on that class.
 
 function togglePassword(inputId, button) {
     const input = document.getElementById(inputId);
@@ -511,4 +509,64 @@ function togglePassword(inputId, button) {
     );
 }
 
-window.togglePassword = togglePassword;
+
+// =========================
+// WIRE UP ALL EVENTS
+// (No onclick= in HTML — works in all CSP environments)
+// =========================
+
+document.addEventListener('DOMContentLoaded', function () {
+
+    // --- Tabs ---
+    const tabLogin = document.getElementById('tab-login');
+    const tabSignup = document.getElementById('tab-signup');
+    if (tabLogin) tabLogin.addEventListener('click', function () { showForm('login'); });
+    if (tabSignup) tabSignup.addEventListener('click', function () { showForm('signup'); });
+
+    // --- Forms: validate on submit ---
+    const formLogin = document.getElementById('form-login');
+    const formSignup = document.getElementById('form-signup');
+    const formForgot = document.getElementById('form-forgot');
+    if (formLogin) formLogin.addEventListener('submit', function (e) {
+        if (!validateLoginForm()) e.preventDefault();
+    });
+    if (formSignup) formSignup.addEventListener('submit', function (e) {
+        if (!validateSignupForm()) e.preventDefault();
+    });
+    if (formForgot) formForgot.addEventListener('submit', function (e) {
+        e.preventDefault();
+    });
+
+    // --- Forgot password link ---
+    const forgotLink = document.getElementById('forgot-link');
+    if (forgotLink) forgotLink.addEventListener('click', function (e) {
+        e.preventDefault();
+        showForm('forgot');
+    });
+
+    // --- Back to login link ---
+    const backToLogin = document.getElementById('back-to-login');
+    if (backToLogin) backToLogin.addEventListener('click', function (e) {
+        e.preventDefault();
+        showForm('login');
+    });
+
+    // --- Forgot password step buttons ---
+    const step1Btn = document.getElementById('forgot-btn-step1');
+    const step2Btn = document.getElementById('forgot-btn-step2');
+    const step3Btn = document.getElementById('forgot-btn-step3');
+    const successBtn = document.getElementById('forgot-btn-success');
+    if (step1Btn) step1Btn.addEventListener('click', handleForgotStep1);
+    if (step2Btn) step2Btn.addEventListener('click', handleForgotStep2);
+    if (step3Btn) step3Btn.addEventListener('click', handleForgotStep3);
+    if (successBtn) successBtn.addEventListener('click', function () { showForm('login'); });
+
+    // --- Password eye toggles (use data-target attribute) ---
+    document.querySelectorAll('.pw-toggle').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            const targetId = btn.getAttribute('data-target');
+            togglePassword(targetId, btn);
+        });
+    });
+
+});

@@ -23,14 +23,17 @@ const imgSrcUrls = [
 
 const helmetConfig = helmet.contentSecurityPolicy({
     directives: {
-        defaultSrc: [],
-        connectSrc: ["'self'", ...connectSrcUrls],
-        scriptSrc: ["'unsafe-inline'", "'self'", ...scriptSrcUrls],
-        styleSrc: ["'self'", "'unsafe-inline'", ...styleSrcUrls],
-        workerSrc: ["'self'", "blob:"],
-        objectSrc: [],
-        imgSrc: imgSrcUrls,
-        fontSrc: ["'self'", ...fontSrcUrls],
+        defaultSrc:     ["'self'"],
+        baseUri:        ["'self'"],
+        formAction:     ["'self'"],
+        connectSrc:     ["'self'", ...connectSrcUrls],
+        scriptSrc:      ["'unsafe-inline'", "'self'", ...scriptSrcUrls],
+        styleSrc:       ["'self'", "'unsafe-inline'", ...styleSrcUrls],
+        workerSrc:      ["'self'", "blob:"],
+        objectSrc:      ["'none'"],
+        imgSrc:         imgSrcUrls,
+        fontSrc:        ["'self'", ...fontSrcUrls],
+        frameAncestors: ["'none'"],
     },
 });
 

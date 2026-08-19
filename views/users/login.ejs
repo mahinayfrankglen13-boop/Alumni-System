@@ -90,11 +90,11 @@
 
             <div class="tab-indicator" id="tab-indicator"></div>
 
-            <button type="button" class="tab active" id="tab-login" onclick="showForm('login')">
+            <button type="button" class="tab active" id="tab-login">
                 Sign In
             </button>
 
-            <button type="button" class="tab" id="tab-signup" onclick="showForm('signup')">
+            <button type="button" class="tab" id="tab-signup">
                 Create Account
             </button>
 
@@ -114,8 +114,7 @@
 
             <form class="form active" id="form-login"
                 action="/login"
-                method="POST"
-                onsubmit="return validateLoginForm();">
+                method="POST">
 
                 <div class="field">
 
@@ -142,7 +141,7 @@
                         <input type="password" id="login-password" name="password" placeholder="Enter your password"
                             autocomplete="current-password">
 
-                        <button type="button" class="pw-toggle" onclick="togglePassword('login-password', this)"
+                        <button type="button" class="pw-toggle" data-target="login-password"
                             aria-label="Show password">
 
                             <svg class="icon-eye" width="20" height="20" viewBox="0 0 24 24" fill="none"
@@ -171,7 +170,7 @@
 
                 <div class="forgot">
 
-                    <a href="#" onclick="showForm('forgot'); return false;">
+                    <a href="#" id="forgot-link">
                         Forgot password?
                     </a>
 
@@ -190,7 +189,6 @@
             ====================== -->
 
             <form class="form" id="form-signup"
-                onsubmit="return validateSignupForm();"
                 action="/register"
                 method="POST">
 
@@ -284,7 +282,7 @@
                         <input type="password" id="signup-password" name="password"
                             placeholder="Must be at least 8 characters" autocomplete="new-password">
 
-                        <button type="button" class="pw-toggle" onclick="togglePassword('signup-password', this)"
+                        <button type="button" class="pw-toggle" data-target="signup-password"
                             aria-label="Show password">
 
                             <svg class="icon-eye" width="20" height="20" viewBox="0 0 24 24" fill="none"
@@ -322,7 +320,7 @@
                  FORGOT PASSWORD
             ====================== -->
 
-            <form class="form" id="form-forgot" onsubmit="return false;">
+            <form class="form" id="form-forgot">
 
                 <div class="forgot-info" id="forgot-info">
                     Enter your email to receive a verification code.
@@ -344,7 +342,7 @@
 
                     </div>
 
-                    <button type="button" id="forgot-btn-step1" class="btn-primary" onclick="handleForgotStep1()">
+                    <button type="button" id="forgot-btn-step1" class="btn-primary">
                         Send Verification Code
                     </button>
 
@@ -366,7 +364,7 @@
 
                     </div>
 
-                    <button type="button" id="forgot-btn-step2" class="btn-primary" onclick="handleForgotStep2()">
+                    <button type="button" id="forgot-btn-step2" class="btn-primary">
                         Verify Code
                     </button>
 
@@ -386,7 +384,7 @@
 
                             <input type="password" id="forgot-password" placeholder="Enter new password" autocomplete="new-password">
 
-                            <button type="button" class="pw-toggle" onclick="togglePassword('forgot-password', this)"
+                            <button type="button" class="pw-toggle" data-target="forgot-password"
                                 aria-label="Show password">
 
                                 <svg class="icon-eye" width="20" height="20" viewBox="0 0 24 24" fill="none"
@@ -423,7 +421,7 @@
 
                             <input type="password" id="forgot-confirm-password" placeholder="Confirm new password" autocomplete="new-password">
 
-                            <button type="button" class="pw-toggle" onclick="togglePassword('forgot-confirm-password', this)"
+                            <button type="button" class="pw-toggle" data-target="forgot-confirm-password"
                                 aria-label="Show password">
 
                                 <svg class="icon-eye" width="20" height="20" viewBox="0 0 24 24" fill="none"
@@ -449,7 +447,7 @@
 
                     </div>
 
-                    <button type="button" id="forgot-btn-step3" class="btn-primary" onclick="handleForgotStep3()">
+                    <button type="button" id="forgot-btn-step3" class="btn-primary">
                         Reset Password
                     </button>
 
@@ -463,7 +461,7 @@
                         Password reset successfully! You can now sign in with your new password.
                     </div>
 
-                    <button type="button" class="btn-primary" onclick="showForm('login')">
+                    <button type="button" id="forgot-btn-success" class="btn-primary">
                         Proceed to Sign In
                     </button>
 
@@ -472,7 +470,7 @@
 
                 <div class="back-link">
 
-                    <a href="#" onclick="showForm('login'); return false;">
+                    <a href="#" id="back-to-login">
                         ← Back to Sign In
                     </a>
 
