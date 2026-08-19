@@ -4,11 +4,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 const nodemailer = require('nodemailer');
 
-let transporter = null;
-
-const getTransporter = () => {
-    if (transporter) return transporter;
-
+const createTransporter = () => {
     const user = process.env.EMAIL_USER ? process.env.EMAIL_USER.trim() : '';
     const pass = process.env.EMAIL_PASS ? process.env.EMAIL_PASS.trim() : '';
 
@@ -19,7 +15,7 @@ const getTransporter = () => {
     const cleanPass = pass.replace(/\s+/g, '');
 
     if (process.env.EMAIL_HOST && process.env.EMAIL_PORT) {
-        transporter = nodemailer.createTransport({
+        return nodemailer.createTransport({
             host: process.env.EMAIL_HOST.trim(),
             port: parseInt(process.env.EMAIL_PORT.trim()),
             secure: process.env.EMAIL_SECURE ? process.env.EMAIL_SECURE.trim() === 'true' : (parseInt(process.env.EMAIL_PORT.trim()) === 465),
@@ -28,23 +24,19 @@ const getTransporter = () => {
             greetingTimeout: 10000,
             socketTimeout: 10000
         });
-    } else {
-        transporter = nodemailer.createTransport({
-            host: 'smtp.gmail.com',
-            port: 465,
-            secure: true,
-            auth: { user, pass: cleanPass },
-            connectionTimeout: 10000,
-            greetingTimeout: 10000,
-            socketTimeout: 10000
-        });
     }
 
-    return transporter;
+    return nodemailer.createTransport({
+        service: 'gmail',
+        auth: { user, pass: cleanPass },
+        connectionTimeout: 10000,
+        greetingTimeout: 10000,
+        socketTimeout: 10000
+    });
 };
 
 const sendResetCodeEmail = async (toEmail, code) => {
-    const activeTransporter = getTransporter();
+    const activeTransporter = createTransporter();
     const userEmail = process.env.EMAIL_USER ? process.env.EMAIL_USER.trim() : '';
     const fromAddress = userEmail
         ? `"MSU-MCEST Alumni System" <${userEmail}>`
@@ -75,7 +67,7 @@ const sendResetCodeEmail = async (toEmail, code) => {
 };
 
 const sendAccountApprovalEmail = async (toEmail, fullName) => {
-    const activeTransporter = getTransporter();
+    const activeTransporter = createTransporter();
     const userEmail = process.env.EMAIL_USER ? process.env.EMAIL_USER.trim() : '';
     const fromAddress = userEmail
         ? `"MSU-MCEST Alumni System" <${userEmail}>`
