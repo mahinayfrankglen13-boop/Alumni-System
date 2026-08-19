@@ -2,14 +2,62 @@ if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config();
 }
 
+const { Resend } = require('resend');
 const nodemailer = require('nodemailer');
+
+const sendViaResend = async ({ to, subject, html, text, from }) => {
+    const apiKey = process.env.RESEND_API_KEY ? process.env.RESEND_API_KEY.trim() : '';
+    const resend = new Resend(apiKey);
+    const fromAddress = from || process.env.EMAIL_FROM || 'MSU-MCEST Alumni Portal <onboarding@resend.dev>';
+
+    const { data, error } = await resend.emails.send({
+        from: fromAddress,
+        to: Array.isArray(to) ? to : [to],
+        subject: subject,
+        html: html,
+        text: text
+    });
+
+    if (error) {
+        throw new Error(error.message || 'Resend delivery error');
+    }
+    return data;
+};
+
+const sendViaBrevo = async ({ to, subject, html, text, from }) => {
+    const apiKey = process.env.BREVO_API_KEY.trim();
+    const senderEmail = process.env.EMAIL_USER || 'alumnisystem666@gmail.com';
+    const senderName = 'MSU-MCEST Alumni Portal';
+
+    const response = await fetch('https://api.brevo.com/v3/smtp/email', {
+        method: 'POST',
+        headers: {
+            'api-key': apiKey,
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+            sender: { name: senderName, email: senderEmail },
+            to: (Array.isArray(to) ? to : [to]).map(e => ({ email: e })),
+            subject: subject,
+            htmlContent: html,
+            textContent: text
+        })
+    });
+
+    const data = await response.json();
+    if (!response.ok) {
+        throw new Error(data.message || 'Brevo API delivery error');
+    }
+    return data;
+};
 
 const createTransporter = () => {
     const user = process.env.EMAIL_USER ? process.env.EMAIL_USER.trim() : '';
     const pass = process.env.EMAIL_PASS ? process.env.EMAIL_PASS.trim() : '';
 
     if (!user || !pass) {
-        throw new Error('EMAIL_USER or EMAIL_PASS environment variables are not configured on the server.');
+        throw new Error('EMAIL_USER/EMAIL_PASS or RESEND_API_KEY is required on the server.');
     }
 
     const cleanPass = pass.replace(/\s+/g, '');
@@ -21,7 +69,7 @@ const createTransporter = () => {
     return nodemailer.createTransport({
         host: host,
         port: port,
-        secure: isSecure, // false for 587 (STARTTLS), true for 465
+        secure: isSecure,
         auth: {
             user: user,
             pass: cleanPass
@@ -35,82 +83,96 @@ const createTransporter = () => {
     });
 };
 
-const sendResetCodeEmail = async (toEmail, code) => {
+const sendMail = async ({ to, subject, text, html }) => {
+    // 1. If BREVO_API_KEY is configured, send via Brevo HTTPS API
+    if (process.env.BREVO_API_KEY && process.env.BREVO_API_KEY.trim()) {
+        return await sendViaBrevo({ to, subject, html, text });
+    }
+
+    // 2. If RESEND_API_KEY is configured, send via Resend HTTPS API (Works 100% on Render Free tier)
+    if (process.env.RESEND_API_KEY && process.env.RESEND_API_KEY.trim()) {
+        return await sendViaResend({ to, subject, html, text });
+    }
+
+    // 3. Otherwise fallback to standard SMTP / Nodemailer (local development)
     const activeTransporter = createTransporter();
     const userEmail = process.env.EMAIL_USER ? process.env.EMAIL_USER.trim() : '';
     const fromAddress = userEmail
         ? `"MSU-MCEST Alumni System" <${userEmail}>`
         : '"MSU-MCEST Alumni System" <no-reply@mcest.edu.ph>';
 
-    const mailOptions = {
+    return await activeTransporter.sendMail({
         from: fromAddress,
+        to,
+        subject,
+        text,
+        html
+    });
+};
+
+const sendResetCodeEmail = async (toEmail, code) => {
+    const text = `Hello,\n\nYou requested to reset your password. Your 6-digit verification code is:\n\n${code}\n\nThis code will expire in 15 minutes.\n\nIf you did not request this, please ignore this email.\n\nBest regards,\nMSU-MCEST Alumni Portal Team`;
+    const html = `
+        <div style="font-family: Arial, sans-serif; max-width: 500px; margin: 0 auto; padding: 24px; border: 1px solid #e0e0e0; border-radius: 12px; background-color: #ffffff;">
+            <h2 style="color: #6b1728; margin-top: 0; font-family: Georgia, serif;">MSU-MCEST Alumni Portal</h2>
+            <p style="color: #333333; font-size: 15px;">Hello,</p>
+            <p style="color: #333333; font-size: 15px;">You requested to reset your password. Here is your 6-digit verification code:</p>
+            <div style="background-color: #f8e9ed; padding: 16px; text-align: center; font-size: 28px; font-weight: bold; letter-spacing: 6px; color: #6b1728; border-radius: 8px; margin: 20px 0; border: 1px solid #f2c6d0;">
+                ${code}
+            </div>
+            <p style="color: #666666; font-size: 14px;">This code is valid for <strong>15 minutes</strong>.</p>
+            <p style="color: #666666; font-size: 14px;">If you did not request a password reset, please ignore this email.</p>
+            <hr style="border: none; border-top: 1px solid #eeeeee; margin: 20px 0;">
+            <p style="font-size: 12px; color: #999999; text-align: center; margin-bottom: 0;">MSU-MCEST Alumni Association System</p>
+        </div>
+    `;
+
+    return await sendMail({
         to: toEmail,
         subject: 'Password Reset Verification Code - MSU-MCEST Alumni',
-        text: `Hello,\n\nYou requested to reset your password. Your 6-digit verification code is:\n\n${code}\n\nThis code will expire in 15 minutes.\n\nIf you did not request this, please ignore this email.\n\nBest regards,\nMSU-MCEST Alumni Portal Team`,
-        html: `
-            <div style="font-family: Arial, sans-serif; max-width: 500px; margin: 0 auto; padding: 24px; border: 1px solid #e0e0e0; border-radius: 12px; background-color: #ffffff;">
-                <h2 style="color: #6b1728; margin-top: 0; font-family: Georgia, serif;">MSU-MCEST Alumni Portal</h2>
-                <p style="color: #333333; font-size: 15px;">Hello,</p>
-                <p style="color: #333333; font-size: 15px;">You requested to reset your password. Here is your 6-digit verification code:</p>
-                <div style="background-color: #f8e9ed; padding: 16px; text-align: center; font-size: 28px; font-weight: bold; letter-spacing: 6px; color: #6b1728; border-radius: 8px; margin: 20px 0; border: 1px solid #f2c6d0;">
-                    ${code}
-                </div>
-                <p style="color: #666666; font-size: 14px;">This code is valid for <strong>15 minutes</strong>.</p>
-                <p style="color: #666666; font-size: 14px;">If you did not request a password reset, please ignore this email.</p>
-                <hr style="border: none; border-top: 1px solid #eeeeee; margin: 20px 0;">
-                <p style="font-size: 12px; color: #999999; text-align: center; margin-bottom: 0;">MSU-MCEST Alumni Association System</p>
-            </div>
-        `
-    };
-
-    return await activeTransporter.sendMail(mailOptions);
+        text,
+        html
+    });
 };
 
 const sendAccountApprovalEmail = async (toEmail, fullName) => {
-    const activeTransporter = createTransporter();
-    const userEmail = process.env.EMAIL_USER ? process.env.EMAIL_USER.trim() : '';
-    const fromAddress = userEmail
-        ? `"MSU-MCEST Alumni System" <${userEmail}>`
-        : '"MSU-MCEST Alumni System" <no-reply@mcest.edu.ph>';
+    const text = `Hello ${fullName || 'Alumnus'},\n\nGreat news! Your account registration for the MSU-MCEST Alumni Portal has been approved by the administrator.\n\nYou can now log in to access the alumni directory, career opportunities, campus announcements, and connect with fellow graduates.\n\nLog in here: https://alumni-system-5c4e.onrender.com/login\n\nBest regards,\nMSU-MCEST Alumni Portal Team`;
+    const html = `
+        <div style="font-family: 'Segoe UI', Arial, sans-serif; max-width: 520px; margin: 0 auto; padding: 28px; border: 1px solid #e2e8f0; border-radius: 14px; background-color: #ffffff; box-shadow: 0 4px 12px rgba(0,0,0,0.04);">
+            <div style="text-align: center; margin-bottom: 20px;">
+                <h2 style="color: #6b1728; margin: 0; font-family: Georgia, serif; font-size: 22px;">MSU-MCEST Alumni Portal</h2>
+                <p style="color: #64748b; font-size: 13px; margin-top: 4px;">Mindanao State University - MCEST</p>
+            </div>
+            <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 10px; padding: 16px; text-align: center; margin-bottom: 20px;">
+                <div style="font-size: 28px; margin-bottom: 4px;">🎉</div>
+                <h3 style="color: #166534; margin: 0; font-size: 18px; font-weight: 700;">Account Approved!</h3>
+            </div>
+            <p style="color: #334155; font-size: 15px; line-height: 1.6;">Hello <strong>${fullName || 'Alumnus'}</strong>,</p>
+            <p style="color: #334155; font-size: 15px; line-height: 1.6;">Great news! Your registration request has been reviewed and <strong style="color: #16a34a;">approved</strong> by the alumni administrator.</p>
+            <p style="color: #334155; font-size: 15px; line-height: 1.6;">You now have full access to:</p>
+            <ul style="color: #475569; font-size: 14px; line-height: 1.8; padding-left: 20px;">
+                <li><strong>Alumni Directory</strong> — Find and network with fellow graduates</li>
+                <li><strong>Career Opportunities</strong> — Discover and post job openings</li>
+                <li><strong>Campus Announcements</strong> — Stay updated on university news & reunions</li>
+                <li><strong>Alumni Profile</strong> — Manage your public/private alumni presence</li>
+            </ul>
+            <div style="text-align: center; margin: 28px 0;">
+                <a href="https://alumni-system-5c4e.onrender.com/login" style="background-color: #6b1728; color: #ffffff; padding: 12px 28px; font-size: 15px; font-weight: 600; text-decoration: none; border-radius: 8px; display: inline-block;">
+                    Log In to Portal →
+                </a>
+            </div>
+            <p style="color: #64748b; font-size: 13px; line-height: 1.5;">You can sign in using your registered email address and password.</p>
+            <hr style="border: none; border-top: 1px solid #f1f5f9; margin: 24px 0 16px 0;">
+            <p style="font-size: 12px; color: #94a3b8; text-align: center; margin: 0;">MSU-MCEST Alumni Association System</p>
+        </div>
+    `;
 
-    const mailOptions = {
-        from: fromAddress,
+    return await sendMail({
         to: toEmail,
         subject: 'Account Approved! Welcome to the MSU-MCEST Alumni Portal',
-        text: `Hello ${fullName || 'Alumnus'},\n\nGreat news! Your account registration for the MSU-MCEST Alumni Portal has been approved by the administrator.\n\nYou can now log in to access the alumni directory, career opportunities, campus announcements, and connect with fellow graduates.\n\nLog in here: https://alumni-system-5c4e.onrender.com/login\n\nBest regards,\nMSU-MCEST Alumni Portal Team`,
-        html: `
-            <div style="font-family: 'Segoe UI', Arial, sans-serif; max-width: 520px; margin: 0 auto; padding: 28px; border: 1px solid #e2e8f0; border-radius: 14px; background-color: #ffffff; box-shadow: 0 4px 12px rgba(0,0,0,0.04);">
-                <div style="text-align: center; margin-bottom: 20px;">
-                    <h2 style="color: #6b1728; margin: 0; font-family: Georgia, serif; font-size: 22px;">MSU-MCEST Alumni Portal</h2>
-                    <p style="color: #64748b; font-size: 13px; margin-top: 4px;">Mindanao State University - MCEST</p>
-                </div>
-                <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 10px; padding: 16px; text-align: center; margin-bottom: 20px;">
-                    <div style="font-size: 28px; margin-bottom: 4px;">🎉</div>
-                    <h3 style="color: #166534; margin: 0; font-size: 18px; font-weight: 700;">Account Approved!</h3>
-                </div>
-                <p style="color: #334155; font-size: 15px; line-height: 1.6;">Hello <strong>${fullName || 'Alumnus'}</strong>,</p>
-                <p style="color: #334155; font-size: 15px; line-height: 1.6;">Great news! Your registration request has been reviewed and <strong style="color: #16a34a;">approved</strong> by the alumni administrator.</p>
-                <p style="color: #334155; font-size: 15px; line-height: 1.6;">You now have full access to:</p>
-                <ul style="color: #475569; font-size: 14px; line-height: 1.8; padding-left: 20px;">
-                    <li><strong>Alumni Directory</strong> — Find and network with fellow graduates</li>
-                    <li><strong>Career Opportunities</strong> — Discover and post job openings</li>
-                    <li><strong>Campus Announcements</strong> — Stay updated on university news & reunions</li>
-                    <li><strong>Alumni Profile</strong> — Manage your public/private alumni presence</li>
-                </ul>
-                <div style="text-align: center; margin: 28px 0;">
-                    <a href="https://alumni-system-5c4e.onrender.com/login" style="background-color: #6b1728; color: #ffffff; padding: 12px 28px; font-size: 15px; font-weight: 600; text-decoration: none; border-radius: 8px; display: inline-block;">
-                        Log In to Portal →
-                    </a>
-                </div>
-                <p style="color: #64748b; font-size: 13px; line-height: 1.5;">You can sign in using your registered email address and password.</p>
-                <hr style="border: none; border-top: 1px solid #f1f5f9; margin: 24px 0 16px 0;">
-                <p style="font-size: 12px; color: #94a3b8; text-align: center; margin: 0;">MSU-MCEST Alumni Association Tracking & Profiling System</p>
-            </div>
-        `
-    };
-
-    return await activeTransporter.sendMail(mailOptions);
+        text,
+        html
+    });
 };
 
 module.exports = { sendResetCodeEmail, sendAccountApprovalEmail };
-
