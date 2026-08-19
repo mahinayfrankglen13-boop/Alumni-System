@@ -123,7 +123,7 @@ const sendAccountApprovalEmail = async (toEmail, fullName) => {
                 <li><strong>Alumni Profile</strong> — Manage your public/private alumni presence</li>
             </ul>
             <div style="text-align: center; margin: 28px 0;">
-                <a href="https://alumni-system-5c4e.onrender.com/login" style="background-color: #6b1728; color: #ffffff; padding: 12px 28px; font-size: 15px; font-weight: 600; text-decoration: none; border-radius: 8px; display: inline-block;">
+                <a href="https://alumni-system-87da.onrender.com" style="background-color: #6b1728; color: #ffffff; padding: 12px 28px; font-size: 15px; font-weight: 600; text-decoration: none; border-radius: 8px; display: inline-block;">
                     Log In to Portal →
                 </a>
             </div>
