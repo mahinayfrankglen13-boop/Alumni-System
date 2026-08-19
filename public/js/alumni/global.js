@@ -16,19 +16,31 @@ function toggleUserDropdown(e) {
 }
 
 // Close User Dropdown on Click Outside
-document.addEventListener('click', () => {
+document.addEventListener('click', function (e) {
+  const chip = document.getElementById('user-chip-btn');
   const dropdown = document.getElementById('user-dropdown');
-  if (dropdown) dropdown.classList.remove('active');
+  if (dropdown && chip && !chip.contains(e.target)) {
+    dropdown.classList.remove('active');
+  }
 });
 
-function handleLogout(e) {
-  if (e) e.preventDefault();
-  if (confirm('Are you sure you want to log out of the MSU-MCEST Alumni Portal?')) {
-    alert('You have been logged out successfully.');
-  }
-}
+// Wire sidebar and user dropdown via addEventListener — no onclick= in HTML
+document.addEventListener('DOMContentLoaded', function () {
 
-// Initialize Vector Icons on DOM Load
-document.addEventListener('DOMContentLoaded', () => {
+  // Sidebar toggle buttons (navbar + sidebar collapse)
+  var sidebarToggle = document.getElementById('sidebar-toggle-btn');
+  var sidebarCollapse = document.getElementById('sidebar-collapse-btn');
+  if (sidebarToggle) sidebarToggle.addEventListener('click', toggleSidebar);
+  if (sidebarCollapse) sidebarCollapse.addEventListener('click', toggleSidebar);
+
+  // User dropdown chip
+  var userChip = document.getElementById('user-chip-btn');
+  if (userChip) userChip.addEventListener('click', function (e) {
+    e.stopPropagation();
+    var dropdown = document.getElementById('user-dropdown');
+    if (dropdown) dropdown.classList.toggle('active');
+  });
+
+  // Initialize Lucide icons
   if (window.lucide) lucide.createIcons();
 });

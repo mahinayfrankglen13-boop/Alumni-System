@@ -10,7 +10,7 @@
       </p>
     </div>
 
-    <button class="btn btn-primary" onclick="openPostJobModal()">
+    <button class="btn btn-primary" id="post-job-btn">
       <i data-lucide="plus-circle"></i>
       Post Job Opportunity
     </button>
@@ -98,7 +98,7 @@
               <button
                 type="button"
                 class="btn btn-outline btn-sm"
-                onclick="openEditJobModal(this)"
+                class="btn btn-outline btn-sm open-edit-job-btn"
                 data-id="<%= job._id %>"
                 data-title="<%= job.title %>"
                 data-company="<%= job.company %>"
@@ -117,7 +117,9 @@
                 action="/alumni/jobs/<%= job._id %>?_method=DELETE"
                 method="POST"
                 style="display: inline;"
-                onsubmit="return confirm('Are you sure you want to delete this job opportunity?');"
+                onsubmit=""
+                class="delete-confirm-form"
+                data-confirm="Are you sure you want to delete this job opportunity?"
               >
                 <button type="submit" class="btn btn-outline-danger btn-sm">
                   <i data-lucide="trash-2" style="width: 14px; height: 14px;"></i>
@@ -154,7 +156,7 @@
       <button
         type="button"
         class="modal-close-btn"
-        onclick="closePostJobModal()"
+        id="close-post-job-btn"
       >
         &times;
       </button>
@@ -223,7 +225,7 @@
         <button
           type="button"
           class="btn btn-outline"
-          onclick="closePostJobModal()"
+          id="cancel-post-job-btn"
         >
           Cancel
         </button>
@@ -245,7 +247,7 @@
       <button
         type="button"
         class="modal-close-btn"
-        onclick="closeEditJobModal()"
+        id="close-edit-job-btn"
       >
         &times;
       </button>
@@ -309,7 +311,7 @@
         <button
           type="button"
           class="btn btn-outline"
-          onclick="closeEditJobModal()"
+          id="cancel-edit-job-btn"
         >
           Cancel
         </button>

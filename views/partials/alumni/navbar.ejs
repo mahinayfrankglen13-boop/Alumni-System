@@ -1,6 +1,6 @@
 <header class="top-alumni-navbar">
   <div class="top-nav-left">
-    <button class="sidebar-toggle-btn" onclick="toggleSidebar()" title="Toggle Navigation Sidebar">
+    <button class="sidebar-toggle-btn" id="sidebar-toggle-btn" title="Toggle Navigation Sidebar">
       <i data-lucide="menu"></i>
     </button>
 
@@ -18,7 +18,7 @@
   <!-- Top Right Actions & Profile Menu -->
 
   <div class="user-chip-wrapper">
-    <div class="user-chip-btn" onclick="toggleUserDropdown(event)">
+    <div class="user-chip-btn" id="user-chip-btn">
       <div class="user-avatar" style="overflow:hidden;padding:0;">
         <img
           src="<%= (currentUser && currentUser.profileImage && currentUser.profileImage.url) ? currentUser.profileImage.url : 'https://res.cloudinary.com/fad0iwxm/image/upload/v1786894165/defaul-prof_ryln3w.jpg' %>"

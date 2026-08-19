@@ -16,7 +16,7 @@ function closeViewProfileModal() {
     document.getElementById('view-profile-modal').classList.remove('active');
 }
 
-document.addEventListener('click', (event) => {
+document.addEventListener('click', function (event) {
     const modal = document.getElementById('view-profile-modal');
 
     if (event.target === modal) {
@@ -32,4 +32,20 @@ document.addEventListener('click', (event) => {
         const image = btn.dataset.image;
         openViewProfileModal(name, course, year, bio, image);
     }
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+
+    const closeBtn = document.getElementById('close-view-profile-btn');
+    const cancelBtn = document.getElementById('cancel-view-profile-btn');
+    if (closeBtn) closeBtn.addEventListener('click', closeViewProfileModal);
+    if (cancelBtn) cancelBtn.addEventListener('click', closeViewProfileModal);
+
+    // Delete confirmation for alumni delete forms
+    document.querySelectorAll('form.delete-confirm-form').forEach(function (form) {
+        form.addEventListener('submit', function (e) {
+            const msg = form.dataset.confirm || 'Are you sure?';
+            if (!confirm(msg)) e.preventDefault();
+        });
+    });
 });
