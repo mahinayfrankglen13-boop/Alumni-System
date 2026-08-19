@@ -22,7 +22,7 @@ const isAnnouncementAuthor = catchAsync(async (req, res, next) => {
     throw new ExpressError('Announcement not found', 404);
   }
 
-  if (!announcement.createdBy.equals(req.user._id)) {
+  if (!announcement.createdBy || !announcement.createdBy.equals(req.user._id)) {
     throw new ExpressError('Forbidden: You do not have permission to modify this announcement', 403);
   }
 

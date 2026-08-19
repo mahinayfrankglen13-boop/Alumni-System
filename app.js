@@ -35,6 +35,9 @@ const Course = require('./models/course');
 
 const app = express();
 
+// Trust reverse proxy in production (Render, Railway, Heroku) for rate limiting & secure cookies
+app.set('trust proxy', 1);
+
 // Security Headers (Helmet) & HTTP Overrides
 app.use(helmetConfig);
 app.use(methodOverride('_method'));
@@ -74,6 +77,7 @@ store.on('error', function (e) {
 });
 
 // Session & Authentication
+const isProduction = process.env.NODE_ENV === 'production';
 const sessionMiddleware = session({
   store,
   name: 'session',
@@ -82,6 +86,8 @@ const sessionMiddleware = session({
   saveUninitialized: false,
   cookie: {
     httpOnly: true,
+    secure: isProduction,
+    sameSite: 'lax',
     expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
     maxAge: 1000 * 60 * 60 * 24 * 7
   }
