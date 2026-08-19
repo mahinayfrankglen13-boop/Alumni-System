@@ -130,8 +130,9 @@
   align-items: center;
 }
 
-@media (max-width: 992px) {
-  .alumni-grid { grid-template-columns: 1fr; }
+/* Responsive Media Queries */
+@media (max-width: 1024px) {
+  .alumni-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (max-width: 768px) {
@@ -148,4 +149,8 @@
   .alumni-card {
     padding: 1.25rem;
   }
+}
+
+@media (max-width: 640px) {
+  .alumni-grid { grid-template-columns: 1fr; }
 }
