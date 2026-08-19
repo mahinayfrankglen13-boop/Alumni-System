@@ -14,24 +14,24 @@ const createTransporter = () => {
 
     const cleanPass = pass.replace(/\s+/g, '');
 
-    if (process.env.EMAIL_HOST && process.env.EMAIL_PORT) {
-        return nodemailer.createTransport({
-            host: process.env.EMAIL_HOST.trim(),
-            port: parseInt(process.env.EMAIL_PORT.trim()),
-            secure: process.env.EMAIL_SECURE ? process.env.EMAIL_SECURE.trim() === 'true' : (parseInt(process.env.EMAIL_PORT.trim()) === 465),
-            auth: { user, pass: cleanPass },
-            connectionTimeout: 10000,
-            greetingTimeout: 10000,
-            socketTimeout: 10000
-        });
-    }
+    const host = process.env.EMAIL_HOST ? process.env.EMAIL_HOST.trim() : 'smtp.gmail.com';
+    const port = process.env.EMAIL_PORT ? parseInt(process.env.EMAIL_PORT.trim()) : 587;
+    const isSecure = process.env.EMAIL_SECURE ? (process.env.EMAIL_SECURE.trim() === 'true') : (port === 465);
 
     return nodemailer.createTransport({
-        service: 'gmail',
-        auth: { user, pass: cleanPass },
-        connectionTimeout: 10000,
-        greetingTimeout: 10000,
-        socketTimeout: 10000
+        host: host,
+        port: port,
+        secure: isSecure, // false for 587 (STARTTLS), true for 465
+        auth: {
+            user: user,
+            pass: cleanPass
+        },
+        tls: {
+            rejectUnauthorized: false
+        },
+        connectionTimeout: 15000,
+        greetingTimeout: 15000,
+        socketTimeout: 15000
     });
 };
 
