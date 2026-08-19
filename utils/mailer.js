@@ -24,34 +24,6 @@ const sendViaResend = async ({ to, subject, html, text, from }) => {
     return data;
 };
 
-const sendViaBrevo = async ({ to, subject, html, text, from }) => {
-    const apiKey = process.env.BREVO_API_KEY.trim();
-    const senderEmail = process.env.EMAIL_USER || 'alumnisystem666@gmail.com';
-    const senderName = 'MSU-MCEST Alumni Portal';
-
-    const response = await fetch('https://api.brevo.com/v3/smtp/email', {
-        method: 'POST',
-        headers: {
-            'api-key': apiKey,
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-        },
-        body: JSON.stringify({
-            sender: { name: senderName, email: senderEmail },
-            to: (Array.isArray(to) ? to : [to]).map(e => ({ email: e })),
-            subject: subject,
-            htmlContent: html,
-            textContent: text
-        })
-    });
-
-    const data = await response.json();
-    if (!response.ok) {
-        throw new Error(data.message || 'Brevo API delivery error');
-    }
-    return data;
-};
-
 const createTransporter = () => {
     const user = process.env.EMAIL_USER ? process.env.EMAIL_USER.trim() : '';
     const pass = process.env.EMAIL_PASS ? process.env.EMAIL_PASS.trim() : '';
@@ -61,7 +33,6 @@ const createTransporter = () => {
     }
 
     const cleanPass = pass.replace(/\s+/g, '');
-
     const host = process.env.EMAIL_HOST ? process.env.EMAIL_HOST.trim() : 'smtp.gmail.com';
     const port = process.env.EMAIL_PORT ? parseInt(process.env.EMAIL_PORT.trim()) : 587;
     const isSecure = process.env.EMAIL_SECURE ? (process.env.EMAIL_SECURE.trim() === 'true') : (port === 465);
@@ -84,17 +55,12 @@ const createTransporter = () => {
 };
 
 const sendMail = async ({ to, subject, text, html }) => {
-    // 1. If BREVO_API_KEY is configured, send via Brevo HTTPS API
-    if (process.env.BREVO_API_KEY && process.env.BREVO_API_KEY.trim()) {
-        return await sendViaBrevo({ to, subject, html, text });
-    }
-
-    // 2. If RESEND_API_KEY is configured, send via Resend HTTPS API (Works 100% on Render Free tier)
+    // 1. If RESEND_API_KEY is configured, send via Resend HTTPS API (Works 100% on Render Free tier)
     if (process.env.RESEND_API_KEY && process.env.RESEND_API_KEY.trim()) {
         return await sendViaResend({ to, subject, html, text });
     }
 
-    // 3. Otherwise fallback to standard SMTP / Nodemailer (local development)
+    // 2. Otherwise fallback to standard SMTP / Nodemailer (local development)
     const activeTransporter = createTransporter();
     const userEmail = process.env.EMAIL_USER ? process.env.EMAIL_USER.trim() : '';
     const fromAddress = userEmail
