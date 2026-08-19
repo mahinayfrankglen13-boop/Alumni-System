@@ -503,13 +503,17 @@ function togglePassword(inputId, button) {
     if (!input) return;
 
     const isCurrentlyHidden = input.type === 'password';
-    const newType = isCurrentlyHidden ? 'text' : 'password';
-
-    input.type = newType;
-    input.setAttribute('type', newType);
+    input.type = isCurrentlyHidden ? 'text' : 'password';
 
     if (button) {
-        button.classList.toggle('is-showing', isCurrentlyHidden);
+        const eyeIcon = button.querySelector('.icon-eye');
+        const eyeOffIcon = button.querySelector('.icon-eye-off');
+
+        if (eyeIcon && eyeOffIcon) {
+            eyeIcon.style.display = isCurrentlyHidden ? 'none' : 'block';
+            eyeOffIcon.style.display = isCurrentlyHidden ? 'block' : 'none';
+        }
+
         button.setAttribute(
             'aria-label',
             isCurrentlyHidden ? 'Hide password' : 'Show password'
@@ -517,3 +521,5 @@ function togglePassword(inputId, button) {
     }
 
 }
+
+window.togglePassword = togglePassword;
