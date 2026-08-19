@@ -492,34 +492,23 @@ function validateSignupForm() {
 // =========================
 // PASSWORD TOGGLE
 // =========================
-// Uses a CSS class ("is-showing") as the single source of truth
-// for which icon is visible, instead of setting inline styles.
-// This avoids the icons getting out of sync with the input state.
+// Toggles the CSS class "is-showing" on the button.
+// CSS in login.css already defines which icon shows based on that class.
 
 function togglePassword(inputId, button) {
-
     const input = document.getElementById(inputId);
-
-    if (!input) return;
+    if (!input || !button) return;
 
     const isCurrentlyHidden = input.type === 'password';
     input.type = isCurrentlyHidden ? 'text' : 'password';
 
-    if (button) {
-        const eyeIcon = button.querySelector('.icon-eye');
-        const eyeOffIcon = button.querySelector('.icon-eye-off');
+    // Toggle class — CSS handles the icon swap
+    button.classList.toggle('is-showing', isCurrentlyHidden);
 
-        if (eyeIcon && eyeOffIcon) {
-            eyeIcon.style.display = isCurrentlyHidden ? 'none' : 'block';
-            eyeOffIcon.style.display = isCurrentlyHidden ? 'block' : 'none';
-        }
-
-        button.setAttribute(
-            'aria-label',
-            isCurrentlyHidden ? 'Hide password' : 'Show password'
-        );
-    }
-
+    button.setAttribute(
+        'aria-label',
+        isCurrentlyHidden ? 'Hide password' : 'Show password'
+    );
 }
 
 window.togglePassword = togglePassword;
