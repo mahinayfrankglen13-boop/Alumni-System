@@ -485,58 +485,9 @@ body {
 
 
 .input-wrapper {
-    position: relative;
-}
 
-.input-wrapper input {
-    padding-right: 2.75rem;
-}
-
-.pw-toggle {
-    position: absolute;
-    right: 8px;
-    top: 50%;
-    transform: translateY(-50%);
-    background: transparent;
-    border: none;
-    padding: 8px;
-    margin: 0;
-    cursor: pointer;
-    color: #64748b;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 6px;
-    transition: color 0.2s ease;
-    z-index: 10;
-    touch-action: manipulation;
-    -webkit-tap-highlight-color: transparent;
-}
-
-.pw-toggle:hover {
-    color: var(--primary);
-}
-
-.pw-toggle svg {
-    pointer-events: none;
-    width: 20px;
-    height: 20px;
-}
-
-.pw-toggle .icon-eye {
-    display: block !important;
-}
-
-.pw-toggle .icon-eye-off {
-    display: none !important;
-}
-
-.pw-toggle.is-showing .icon-eye {
-    display: none !important;
-}
-
-.pw-toggle.is-showing .icon-eye-off {
-    display: block !important;
+    position:
+        relative;
 }
 
 
@@ -986,113 +937,91 @@ input:focus,
 
 
 /* =========================
-   RESPONSIVE DESIGN (ALL DEVICES)
+   MOBILE
 ========================= */
 
-/* Tablets & Mobile Devices (< 768px) */
-@media (max-width: 768px) {
+@media (max-width: 520px) {
+
     .login-page {
-        padding: 1.5rem 1rem;
-        min-height: 100dvh;
+
+        padding:
+            1rem;
     }
+
 
     .card {
-        padding: 2.25rem 1.75rem;
-        border-radius: 20px;
+
+        padding:
+            2rem 1.5rem;
+
+        border-radius:
+            18px;
     }
 
-    .card-header h1 {
-        font-size: 1.75rem;
-    }
-}
-
-/* Mobile Screens (< 640px) - Prevents iOS Auto-Zoom */
-@media (max-width: 640px) {
-    input[type="text"],
-    input[type="email"],
-    input[type="password"],
-    input[type="number"],
-    .select-input {
-        font-size: 16px; /* Prevents iOS Safari page auto-zoom on input focus */
-        padding: 0.88rem 0.95rem;
-    }
-
-    .pw-toggle {
-        min-width: 44px;
-        min-height: 44px;
-        right: 4px;
-    }
-
-    .input-wrapper input {
-        padding-right: 3rem;
-    }
-
-    .btn-primary {
-        min-height: 48px;
-        font-size: 0.95rem;
-    }
-
-    .tabs {
-        padding: 4px;
-    }
-
-    .tab {
-        padding: 0.75rem 0.5rem;
-        font-size: 0.85rem;
-    }
-}
-
-/* Small Phones (< 480px) */
-@media (max-width: 480px) {
-    .login-page {
-        padding: 0.75rem 0.5rem;
-    }
-
-    .card {
-        padding: 1.75rem 1.25rem;
-        border-radius: 16px;
-        box-shadow: 0 15px 35px rgba(15, 23, 42, 0.08);
-    }
-
-    .brand-link {
-        gap: 10px;
-    }
 
     .brand-logo {
-        width: 46px;
-        height: 46px;
+
+        width:
+            54px;
+
+        height:
+            54px;
     }
+
 
     .brand-name {
-        font-size: 1rem;
+
+        font-size:
+            1rem;
     }
+
 
     .card-header h1 {
-        font-size: 1.5rem;
+
+        font-size:
+            1.65rem;
     }
 
-    .card-header p {
-        font-size: 0.82rem;
-    }
-
-    #forgot-code {
-        font-size: 1.35rem;
-        letter-spacing: 6px;
-    }
 }
 
-/* Extra Small Phones (< 360px) */
-@media (max-width: 360px) {
-    .card {
-        padding: 1.25rem 0.9rem;
+
+@media (max-width: 380px) {
+
+    .login-page {
+
+        padding:
+            0.75rem;
     }
+
+
+    .card {
+
+        padding:
+            1.5rem 1.15rem;
+    }
+
+
+    .brand-link {
+
+        gap:
+            10px;
+    }
+
+
+    .brand-logo {
+
+        width:
+            48px;
+
+        height:
+            48px;
+    }
+
 
     .tab {
-        font-size: 0.76rem;
-        padding: 0.65rem 0.25rem;
+
+        font-size:
+            0.78rem;
     }
 
-    .brand-title {
-        font-size: 1rem;
-    }
 }
