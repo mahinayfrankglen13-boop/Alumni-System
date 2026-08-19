@@ -136,10 +136,20 @@ module.exports.sendResetCode = async (req, res) => {
         return res.json({ success: true, message: 'Verification code sent to your email.' });
     } catch (err) {
         console.error('Email send error:', err);
-        let msg = 'Failed to send verification code email. Please try again later or contact support.';
-        if (err.message && err.message.includes('EMAIL_USER')) {
-            msg = 'Email service is not yet configured on the server. Please set EMAIL_USER and EMAIL_PASS in server settings.';
+        let msg = 'Failed to send verification code email.';
+        
+        if (err.message) {
+            if (err.message.includes('Invalid login') || err.message.includes('535') || err.code === 'EAUTH') {
+                msg = 'Email authentication failed. Please verify EMAIL_USER and ensure EMAIL_PASS is a 16-character Gmail App Password in Render settings.';
+            } else if (err.message.includes('EMAIL_USER') || err.message.includes('not configured')) {
+                msg = 'Email service is not configured on the server. Please add EMAIL_USER and EMAIL_PASS to Render Environment variables.';
+            } else if (err.code === 'ETIMEDOUT' || err.code === 'ESOCKETTIMEDOUT' || err.message.includes('timeout')) {
+                msg = 'Email server connection timed out. Please check your SMTP settings or network.';
+            } else {
+                msg = `Email error: ${err.message}`;
+            }
         }
+        
         return res.status(500).json({
             success: false,
             message: msg
