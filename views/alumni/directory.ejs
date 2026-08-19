@@ -98,7 +98,7 @@
                     </button>
                   </form>
                 <% } %>
-                <form action="/alumni/users/<%= alum._id %>?_method=DELETE" method="POST" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this alumni user?');">
+                <form action="/alumni/users/<%= alum._id %>?_method=DELETE" method="POST" style="display: inline;" class="delete-confirm-form" data-confirm="Are you sure you want to delete this alumni user?">
                   <button type="submit" class="btn btn-outline-danger btn-sm" style="padding: 4px 10px;">
                     <i data-lucide="trash-2" style="width: 14px; height: 14px;"></i> Delete
                   </button>

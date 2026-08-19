@@ -2,6 +2,7 @@ const User = require('../models/user');
 const Course = require('../models/course');
 const ExpressError = require('../utils/ExpressError');
 const { cloudinary } = require('../cloudinary');
+const { sendAccountApprovalEmail } = require('../utils/mailer');
 
 module.exports.renderDirectory = async (req, res) => {
     const pageData = { css: 'directory', js: 'directory', page: 'directory' };
@@ -72,7 +73,16 @@ module.exports.updateUserStatus = async (req, res) => {
         }
         await User.findByIdAndDelete(req.params.id);
     } else {
-        await User.findByIdAndUpdate(req.params.id, { status });
+        const user = await User.findByIdAndUpdate(req.params.id, { status }, { new: true });
+
+        // Send approval email notification if status was changed to approved
+        if (status === 'approved' && user && user.email) {
+            try {
+                await sendAccountApprovalEmail(user.email, user.fullName);
+            } catch (emailErr) {
+                console.error('Error sending account approval email:', emailErr);
+            }
+        }
     }
 
     res.redirect('/alumni/directory');
