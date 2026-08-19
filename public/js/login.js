@@ -503,14 +503,17 @@ function togglePassword(inputId, button) {
     if (!input) return;
 
     const isCurrentlyHidden = input.type === 'password';
+    const newType = isCurrentlyHidden ? 'text' : 'password';
 
-    input.type = isCurrentlyHidden ? 'text' : 'password';
+    input.type = newType;
+    input.setAttribute('type', newType);
 
-    button.classList.toggle('is-showing', isCurrentlyHidden);
-
-    button.setAttribute(
-        'aria-label',
-        isCurrentlyHidden ? 'Hide password' : 'Show password'
-    );
+    if (button) {
+        button.classList.toggle('is-showing', isCurrentlyHidden);
+        button.setAttribute(
+            'aria-label',
+            isCurrentlyHidden ? 'Hide password' : 'Show password'
+        );
+    }
 
 }
