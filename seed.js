@@ -1,10 +1,16 @@
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config();
+}
+
 const mongoose = require('mongoose');
 const User = require('./models/user');
 const Course = require('./models/course');
 const Job = require('./models/job');
 const Announcement = require('./models/announcement');
 
-mongoose.connect('mongodb://127.0.0.1:27017/alumniSystem')
+const dbUrl = process.env.DB_URL || 'mongodb://127.0.0.1:27017/alumniSystem';
+
+mongoose.connect(dbUrl)
   .then(() => {
     console.log('MongoDB connected for seeding...');
   })
